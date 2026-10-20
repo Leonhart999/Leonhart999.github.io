@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>何俊杰 | 控制工程与机器人</title>
+<link rel="canonical" href="https://leonhart999.github.io/zh/">
+<link rel="alternate" hreflang="en" href="https://leonhart999.github.io/">
+<link rel="alternate" hreflang="zh-Hans" href="https://leonhart999.github.io/zh/">
+<link rel="alternate" hreflang="x-default" href="https://leonhart999.github.io/">
+<meta name="description" content="何俊杰，哈尔滨工程大学与南安普顿大学联合培养，控制工程方向。研究容错控制、强化学习、激光雷达 SLAM 与移动机器人自主导航。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23a63a2e'/%3E%3Ctext x='32' y='45' font-size='38' font-family='serif' fill='%23f7f4ec' text-anchor='middle'%3E%E4%BD%95%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --paper:#f7f4ec;
+    --paper-2:#efe9dc;
+    --card:rgba(255,255,255,.46);
+    --ink:#1c1a17;
+    --ink-2:#3d3833;
+    --ink-3:#6f675d;
+    --ink-4:#948b7f;
+    --cinnabar:#a63a2e;
+    --cinnabar-2:#c2503f;
+    --line:rgba(28,26,23,.13);
+    --line-soft:rgba(28,26,23,.07);
+    --max:1080px;
+    --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",Georgia,serif;
+    --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Helvetica Neue",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background-color:var(--paper);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    color:var(--ink);
+    font-family:var(--serif);
+    font-size:16px;
+    line-height:1.95;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:rgba(166,58,46,.16);}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:60;
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    background:rgba(247,244,236,.78);
+    border-bottom:1px solid transparent;
+    transition:border-color .4s ease,background .4s ease;
+  }
+  .topbar.scrolled{border-bottom-color:var(--line-soft);}
+  .topbar-in{
+    max-width:var(--max);margin:0 auto;padding:16px 32px;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+  }
+  .brand{display:flex;align-items:center;gap:12px;font-family:var(--sans);font-size:13px;letter-spacing:.16em;color:var(--ink-2);}
+  .seal-mini{
+    width:26px;height:26px;flex:0 0 26px;border-radius:4px;
+    background:var(--cinnabar);color:#fbf8f1;
+    display:grid;place-items:center;
+    font-family:var(--serif);font-size:15px;line-height:1;
+    box-shadow:0 1px 0 rgba(0,0,0,.06) inset;
+    transform:rotate(-3deg);
+  }
+  .nav{display:flex;gap:26px;}
+  .nav a{
+    font-family:var(--sans);font-size:12.5px;letter-spacing:.1em;
+    color:var(--ink-3);position:relative;padding-bottom:3px;white-space:nowrap;
+    transition:color .3s ease;
+  }
+  .nav a::after{
+    content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--cinnabar);
+    transition:width .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .nav a:hover{color:var(--ink);}
+  .nav a:hover::after{width:100%;}
+
+  .right{display:flex;align-items:center;gap:24px;}
+  .lang{display:flex;align-items:center;gap:8px;padding-left:20px;border-left:1px solid var(--line);
+    font-family:var(--sans);font-size:11.5px;letter-spacing:.08em;}
+  .lang a{color:var(--ink-4);transition:color .3s ease;}
+  .lang a:hover{color:var(--ink);}
+  .lang a.on{color:var(--cinnabar);}
+  .lang i{font-style:normal;color:rgba(28,26,23,.22);}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;overflow:hidden;padding:104px 32px 92px;}
+  .ink{position:absolute;pointer-events:none;border-radius:50%;filter:blur(46px);opacity:.5;}
+  .ink.a{width:520px;height:520px;right:-140px;top:-180px;
+    background:radial-gradient(circle at 40% 40%,rgba(60,54,48,.30),rgba(60,54,48,0) 68%);}
+  .ink.b{width:420px;height:420px;left:-160px;bottom:-200px;
+    background:radial-gradient(circle at 50% 50%,rgba(166,58,46,.16),rgba(166,58,46,0) 70%);}
+  .ink.c{width:300px;height:300px;left:46%;top:12%;
+    background:radial-gradient(circle at 50% 50%,rgba(28,26,23,.10),rgba(28,26,23,0) 70%);}
+  .hero-in{max-width:var(--max);margin:0 auto;position:relative;}
+  .eyebrow{
+    font-family:var(--sans);font-size:12px;letter-spacing:.24em;
+    color:var(--cinnabar);display:flex;align-items:center;gap:14px;margin-bottom:28px;
+  }
+  .eyebrow::before{content:"";width:34px;height:1px;background:var(--cinnabar);opacity:.55;}
+  h1{
+    font-size:clamp(2.7rem,7.5vw,4.7rem);
+    line-height:1.14;font-weight:400;letter-spacing:.1em;
+    background:linear-gradient(178deg,#12100d 0%,#332e29 48%,#6f675d 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .name-zh{
+    font-family:var(--sans);font-size:clamp(.82rem,1.9vw,1rem);color:var(--ink-4);letter-spacing:.34em;
+    margin-top:18px;font-weight:400;
+  }
+  .lede{
+    max-width:660px;margin-top:34px;font-size:1.04rem;color:var(--ink-2);
+    line-height:2.05;
+  }
+  .lede em{font-style:normal;color:var(--ink);border-bottom:1px solid rgba(166,58,46,.32);}
+  .hero-meta{
+    margin-top:36px;display:flex;flex-wrap:wrap;gap:10px 26px;
+    font-family:var(--sans);font-size:12.5px;color:var(--ink-3);
+  }
+  .hero-meta span{display:flex;align-items:center;gap:8px;}
+  .hero-meta b{font-weight:400;color:var(--ink-4);letter-spacing:.1em;font-size:10.5px;}
+  .hero-meta a{border-bottom:1px solid var(--line);transition:border-color .3s,color .3s;}
+  .hero-meta a:hover{color:var(--cinnabar);border-bottom-color:var(--cinnabar);}
+
+  .seal{
+    position:absolute;right:-8px;top:-4px;
+    width:96px;height:96px;border-radius:6px;
+    background:var(--cinnabar);color:rgba(255,255,255,.94);
+    display:grid;place-items:center;
+    font-family:var(--serif);font-size:46px;line-height:1;
+    transform:rotate(-4deg);
+    box-shadow:0 10px 26px -14px rgba(166,58,46,.7);
+    opacity:.94;
+  }
+  .seal::after{content:"";position:absolute;inset:6px;border:1px solid rgba(255,255,255,.34);border-radius:3px;}
+
+  /* ---------- layout ---------- */
+  main{max-width:var(--max);margin:0 auto;padding:0 32px 40px;}
+  section{padding:72px 0;border-top:1px solid var(--line-soft);}
+  section:first-of-type{border-top:none;}
+  .sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:40px;}
+  .sec-head h2{
+    font-family:var(--sans);font-size:13px;font-weight:500;
+    letter-spacing:.22em;color:var(--ink);
+  }
+  .sec-head .idx{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--cinnabar);letter-spacing:.05em;}
+  .sec-head .rule{flex:1;height:1px;background:var(--line-soft);}
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid;grid-template-columns:1.35fr .95fr;gap:56px;}
+  .about-text p{color:var(--ink-2);margin-bottom:20px;font-size:1rem;line-height:2.05;}
+  .about-text p:last-child{margin-bottom:0;}
+  .about-text strong{font-weight:600;color:var(--ink);}
+
+  .edu{border-left:1px solid var(--line);padding-left:24px;}
+  .edu-item{margin-bottom:26px;}
+  .edu-item:last-child{margin-bottom:0;}
+  .edu-item h4{font-size:.98rem;font-weight:600;color:var(--ink);line-height:1.8;}
+  .edu-item .school{font-size:.88rem;color:var(--ink-3);margin-top:4px;line-height:1.85;}
+  .edu-item .stat{
+    font-family:var(--sans);font-size:11.5px;letter-spacing:.06em;color:var(--cinnabar);
+    margin-top:7px;
+  }
+
+  .interests{margin-top:44px;}
+  .interests h3{
+    font-family:var(--sans);font-size:11px;letter-spacing:.22em;
+    color:var(--ink-4);margin-bottom:16px;
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:9px;}
+  .chip{
+    font-family:var(--sans);font-size:12.5px;color:var(--ink-2);
+    border:1px solid var(--line);border-radius:100px;padding:5px 15px;background:rgba(255,255,255,.35);
+    transition:border-color .3s,color .3s,background .3s;
+  }
+  .chip:hover{border-color:rgba(166,58,46,.4);color:var(--cinnabar);background:rgba(166,58,46,.04);}
+
+  /* ---------- publications ---------- */
+  .pub{
+    display:grid;grid-template-columns:56px 1fr;gap:0 24px;
+    padding:30px 0;border-top:1px solid var(--line-soft);
+    transition:padding-left .4s cubic-bezier(.2,.7,.2,1);
+  }
+  .pub:first-of-type{border-top:none;padding-top:0;}
+  .pub:hover{padding-left:10px;}
+  .pub-no{
+    font-family:var(--serif);font-style:italic;font-size:13px;color:var(--ink-4);
+    padding-top:5px;letter-spacing:.06em;transition:color .35s;
+  }
+  .pub:hover .pub-no{color:var(--cinnabar);}
+  .pub h3{font-size:1.06rem;font-weight:600;line-height:1.75;color:var(--ink);}
+  .pub h3 em{font-style:italic;}
+  .pub .venue{font-size:.9rem;color:var(--ink-3);margin-top:10px;line-height:1.9;}
+  .pub .venue .flag{
+    font-family:var(--sans);font-size:10.5px;letter-spacing:.1em;
+    color:var(--cinnabar);border:1px solid rgba(166,58,46,.28);border-radius:3px;
+    padding:1px 7px;margin-left:9px;white-space:nowrap;
+  }
+  .pub p.desc{font-size:.95rem;color:var(--ink-2);margin-top:12px;max-width:76ch;line-height:2;}
+  .pub .metric{
+    display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:14px;
+    font-family:var(--sans);font-size:11.5px;letter-spacing:.04em;color:var(--ink-3);
+  }
+  .pub .metric b{color:var(--cinnabar);font-weight:500;}
+
+  /* ---------- projects ---------- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;}
+  .card{
+    background:var(--card);border:1px solid var(--line-soft);border-radius:3px;
+    padding:26px 26px 24px;position:relative;overflow:hidden;
+    transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s,border-color .45s,background .45s;
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 22px 44px -30px rgba(28,26,23,.45);
+    border-color:rgba(28,26,23,.16);background:rgba(255,255,255,.66);
+  }
+  .card .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px;}
+  .card .kind{font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;color:var(--ink-4);}
+  .card .year{font-family:var(--sans);font-size:11px;color:var(--ink-4);white-space:nowrap;}
+  .card h3{font-size:1rem;font-weight:600;line-height:1.8;color:var(--ink);}
+  .card p{font-size:.9rem;color:var(--ink-2);margin-top:10px;line-height:1.95;}
+  .card .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;}
+  .tag{
+    font-family:var(--sans);font-size:10.5px;color:var(--ink-3);
+    background:rgba(28,26,23,.045);border-radius:2px;padding:2px 8px;letter-spacing:.03em;
+  }
+
+  /* ---------- experience ---------- */
+  .tl{position:relative;padding-left:30px;}
+  .tl::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:1px;background:var(--line);}
+  .job{position:relative;padding-bottom:44px;}
+  .job:last-child{padding-bottom:0;}
+  .job::before{
+    content:"";position:absolute;left:-30px;top:12px;width:7px;height:7px;border-radius:50%;
+    background:var(--paper);border:1px solid rgba(28,26,23,.28);transform:translateX(-3px);
+    transition:background .35s,border-color .35s;
+  }
+  .job:hover::before{background:var(--cinnabar);border-color:var(--cinnabar);}
+  .job .when{
+    font-family:var(--sans);font-size:11px;letter-spacing:.14em;color:var(--ink-4);
+  }
+  .job h3{font-size:1.02rem;font-weight:600;margin-top:8px;color:var(--ink);line-height:1.8;}
+  .job .org{font-size:.9rem;color:var(--ink-3);margin-top:3px;}
+  .job ul{margin-top:12px;padding-left:0;list-style:none;}
+  .job li{position:relative;padding-left:18px;font-size:.93rem;color:var(--ink-2);margin-bottom:7px;line-height:1.95;}
+  .job li::before{content:"";position:absolute;left:0;top:.95em;width:8px;height:1px;background:rgba(166,58,46,.5);}
+  .job .tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px;}
+
+  /* ---------- honours ---------- */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+  .list{list-style:none;}
+  .list li{
+    display:grid;grid-template-columns:64px 1fr;gap:14px;
+    padding:13px 0;border-bottom:1px solid var(--line-soft);font-size:.93rem;color:var(--ink-2);line-height:1.9;
+  }
+  .list li:first-child{padding-top:0;}
+  .list li:last-child{border-bottom:none;}
+  .list .yr{font-family:var(--sans);font-size:11px;letter-spacing:.06em;color:var(--cinnabar);padding-top:4px;}
+  .skill-row{margin-bottom:22px;}
+  .skill-row:last-child{margin-bottom:0;}
+  .skill-row .k{font-family:var(--sans);font-size:11px;letter-spacing:.18em;color:var(--ink-4);margin-bottom:7px;}
+  .skill-row .v{font-size:.95rem;color:var(--ink-2);line-height:2;}
+
+  /* ---------- contact ---------- */
+  .contact{padding:96px 0 72px;border-top:1px solid var(--line-soft);}
+  .contact h2{
+    font-size:clamp(1.7rem,3.9vw,2.55rem);font-weight:400;line-height:1.6;letter-spacing:.02em;
+    max-width:780px;
+    background:linear-gradient(176deg,#171512,#5c554c);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .contact-links{display:flex;flex-wrap:wrap;gap:12px 32px;margin-top:34px;
+    font-family:var(--sans);font-size:13px;letter-spacing:.03em;}
+  .contact-links a{
+    color:var(--ink-2);border-bottom:1px solid var(--line);padding-bottom:2px;
+    transition:color .3s,border-color .3s;
+  }
+  .contact-links a:hover{color:var(--cinnabar);border-bottom-color:var(--cinnabar);}
+
+  footer{border-top:1px solid var(--line-soft);padding:28px 32px 40px;}
+  .foot-in{
+    max-width:var(--max);margin:0 auto;display:flex;justify-content:space-between;align-items:center;
+    gap:18px;flex-wrap:wrap;
+    font-family:var(--sans);font-size:11.5px;letter-spacing:.08em;color:var(--ink-4);
+  }
+  .foot-seal{
+    width:22px;height:22px;border-radius:3px;background:rgba(166,58,46,.9);color:#fbf8f1;
+    display:grid;place-items:center;font-family:var(--serif);font-size:13px;transform:rotate(-4deg);
+  }
+  .foot-left{display:flex;align-items:center;gap:12px;}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .about-grid{grid-template-columns:1fr;gap:40px;}
+    .two{grid-template-columns:1fr;gap:44px;}
+    .seal{width:76px;height:76px;font-size:36px;top:0;right:0;opacity:.9;}
+    .nav{gap:18px;}
+    .nav a{font-size:12px;letter-spacing:.06em;}
+    .right{gap:14px;}
+    .lang{padding-left:12px;font-size:11px;}
+  }
+  @media (max-width:640px){
+    body{font-size:15.5px;line-height:1.9;}
+    .topbar-in{padding:13px 20px;gap:12px;}
+    .brand span:last-child{display:none;}
+    .right{gap:10px;flex-wrap:wrap;justify-content:flex-end;}
+    .nav{gap:14px;flex-wrap:wrap;justify-content:flex-end;}
+    .nav a{font-size:11px;letter-spacing:.04em;}
+    .lang{padding-left:0;border-left:none;font-size:11px;}
+    .hero{padding:60px 20px 58px;}
+    main{padding:0 20px 30px;}
+    section{padding:52px 0;}
+    .seal{position:relative;right:auto;top:auto;margin-top:32px;transform:rotate(-3deg);}
+    .pub{grid-template-columns:1fr;gap:0;}
+    .pub-no{padding-top:0;margin-bottom:8px;}
+    .job{padding-bottom:34px;}
+    .contact{padding:64px 0 48px;}
+    .list li{grid-template-columns:52px 1fr;gap:10px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <div class="topbar-in">
+    <a href="#top" class="brand"><span class="seal-mini">何</span><span>何俊杰</span></a>
+    <div class="right">
+      <nav class="nav">
+        <a href="#about">关于</a>
+        <a href="#publications">论文</a>
+        <a href="#projects">项目</a>
+        <a href="#experience">经历</a>
+        <a href="#honours">荣誉</a>
+        <a href="#contact">联系</a>
+      </nav>
+      <div class="lang"><a href="../">EN</a><i>/</i><a href="./" class="on">中文</a></div>
+    </div>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="ink a"></div>
+  <div class="ink b"></div>
+  <div class="ink c"></div>
+  <div class="hero-in">
+    <p class="eyebrow">自动化 · 控制工程 · 机器人</p>
+    <h1>何俊杰</h1>
+    <p class="name-zh">HE JUNJIE</p>
+    <p class="lede">
+      我研究的是机器人如何在自身的故障里活下来。工作横跨两侧：
+      <em>足式机器人的容错控制</em>，与<em>移动平台的自主导航</em>。
+      前者判断究竟哪里坏了，把还剩下的能力重新分配合适；后者让机器人在没有地图的地方自己找路。
+    </p>
+    <div class="hero-meta">
+      <span><b>现在</b>哈尔滨工程大学 × 南安普顿大学 控制工程（本科）</span>
+      <span><b>邮箱</b><a href="mailto:1425109609@qq.com">1425109609@qq.com</a></span>
+      <span><b>坐标</b>深圳 / 哈尔滨</span>
+    </div>
+    <div class="seal">何</div>
+  </div>
+</div>
+<main>
+
+  <!-- ============ 关于 ============ -->
+  <section id="about">
+    <div class="sec-head reveal"><span class="idx">一</span><h2>关于</h2><span class="rule"></span></div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          我是<strong>哈尔滨工程大学</strong>与<strong>南安普顿大学</strong>联合培养项目的本科生，
+          中方专业为自动化，英方为控制工程（BEng Control Engineering），
+          当前均分 88.13/100，预计获得一等荣誉学位。
+        </p>
+        <p>
+          研究兴趣起于一个很朴素的问题：当机器人的执行器悄悄失去驱动力，而没有人察觉，会发生什么。
+          这个问题后来成了一篇一作论文，用非线性干扰观测器配合强化学习做双足机器人的平衡恢复；
+          再往前，是另一篇关于仓库机器人 Q-learning 路径规划的一作论文。两篇背后是同一种直觉：
+          机器应当能判断自身的退化程度，并且仍然把任务做完。
+        </p>
+        <p>
+          目前正在完成本科毕业设计<strong>《基于激光雷达的移动机器人 SLAM 建图与自主导航》</strong>，
+          在仿真中搭建从点云配准、地图维护到代价地图导航的完整链路。研究之外，
+          我在海柔创新做过仓储机器人测试平台，在泽芯科技做过 FPV 无人机硬件，
+          也在华为鲲鹏与昇腾的 AI 全栈上做过部署。这些经历让我的建模始终要面对一件事：
+          它得真的能开机跑起来。
+        </p>
+      </div>
+
+      <div class="reveal">
+        <div class="edu">
+          <div class="edu-item">
+            <h4>控制工程 工学学士（BEng）</h4>
+            <div class="school">南安普顿大学 · 与哈尔滨工程大学联合培养</div>
+            <div class="stat">预计一等荣誉学位</div>
+          </div>
+          <div class="edu-item">
+            <h4>自动化 工学学士</h4>
+            <div class="school">哈尔滨工程大学</div>
+            <div class="stat">GPA 3.5 / 4.0 · 均分 88.13 / 100</div>
+          </div>
+          <div class="edu-item">
+            <h4>控制工程 访问学生</h4>
+            <div class="school">南安普顿大学 · 国家留学基金委卓越工程师培养项目</div>
+            <div class="stat">2027 年 1 月至 4 月，预计</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="interests reveal">
+      <h3>研究兴趣</h3>
+      <div class="chips">
+        <span class="chip">容错控制</span>
+        <span class="chip">非线性干扰观测器</span>
+        <span class="chip">强化学习控制</span>
+        <span class="chip">足式机器人平衡</span>
+        <span class="chip">激光雷达 SLAM</span>
+        <span class="chip">自主导航</span>
+        <span class="chip">机器人系统集成</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 论文 ============ -->
+  <section id="publications">
+    <div class="sec-head reveal"><span class="idx">二</span><h2>论文发表</h2><span class="rule"></span></div>
+
+    <article class="pub reveal">
+      <div class="pub-no">01</div>
+      <div>
+        <h3>Fault-Tolerant Bipedal Balance Recovery via Nonlinear Disturbance Observer and Reinforcement Learning-Based Torque Redistribution</h3>
+        <p class="venue">
+          <em>ICSP 2026</em>，第十一届智能计算与信号处理国际会议，中国合肥
+          · 收录于 IEEE Xplore、EI Compendex、Scopus
+          <span class="flag">第一作者</span>
+        </p>
+        <p class="desc">
+          一套让双足机器人在踝关节执行器部分失效之后仍能站住的混合框架。非线性干扰观测器实时估计丢失的力矩，
+          强化学习策略在关节之间重新分配剩余的控制能力，从而在推力不足的情况下维持平衡。
+        </p>
+        <div class="metric">
+          <span>力矩损失容忍 <b>56%</b></span>
+          <span>平衡存活率 <b>82%</b></span>
+          <span>质心偏差 <b>0.355 ± 0.102 m</b></span>
+          <span>优于主流基线算法</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="pub reveal">
+      <div class="pub-no">02</div>
+      <div>
+        <h3>Three-stage Path Planning for Warehouse Robots Based on Q-learning Algorithm</h3>
+        <p class="venue">
+          <em>AMCCE 2024</em>，第五届自动化、机械控制与计算工程国际会议，希腊雅典
+          · 收录于 Highlights in Science, Engineering and Technology（ISSN 2791-0210）
+          <span class="flag">第一作者</span>
+        </p>
+        <p class="desc">
+          基于 MATLAB 的仓储仿真环境，以及一套把全局路径规划与局部避障解耦的三阶段规划方案，
+          解决经典算法在密集货架布局下容易陷入停滞的耦合问题。
+        </p>
+        <div class="metric">
+          <span>收敛速度优于基线</span>
+          <span>导航精度更高</span>
+          <span>参数迭代调优</span>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ 项目 ============ -->
+  <section id="projects">
+    <div class="sec-head reveal"><span class="idx">三</span><h2>项目选列</h2><span class="rule"></span></div>
+    <div class="cards">
+
+      <article class="card reveal">
+        <div class="top"><span class="kind">本科毕业设计</span><span class="year">2026 至 2027</span></div>
+        <h3>基于激光雷达的移动机器人 SLAM 建图与自主导航</h3>
+        <p>
+          在仿真中搭建完整的自主导航链路：点云预处理与扫描匹配建图、地图维护、全局与局部规划器、
+          恢复行为，并以回环误差与导航成功率作为评价指标。
+        </p>
+        <div class="tags"><span class="tag">ROS2</span><span class="tag">SLAM</span><span class="tag">Nav2</span><span class="tag">仿真</span></div>
+      </article>
+
+      <article class="card reveal">
+        <div class="top"><span class="kind">课程项目</span><span class="year">2025 至 2026</span></div>
+        <h3>具备语音对话与视觉感知的表情机器人</h3>
+        <p>
+          ESP32 与树莓派混合架构驱动九个舵机完成面部表情，集成 Grove Vision AI 模块、
+          双自动对焦摄像头与 MEMS 麦克风。接入小智框架与 DeepSeek API，
+          实现自然语音对话与实时场景描述。
+        </p>
+        <div class="tags"><span class="tag">ESP32</span><span class="tag">树莓派</span><span class="tag">边缘 AI</span><span class="tag">硬件</span></div>
+      </article>
+
+      <article class="card reveal">
+        <div class="top"><span class="kind">独立项目</span><span class="year">2025</span></div>
+        <h3>赛车尾翼气动设计与 CFD 验证</h3>
+        <p>
+          从概念设计到气动优化的完整流程：用 Python 做圈速仿真确定 CL/CD 目标，
+          以贝塞尔曲线建模翼型，迭代出带后缘襟翼的两段式尾翼，
+          并在 SolidWorks Flow Simulation 中建立五级网格计算域完成验证。
+        </p>
+        <div class="tags"><span class="tag">CFD</span><span class="tag">Python</span><span class="tag">空气动力学</span><span class="tag">SolidWorks</span></div>
+      </article>
+
+      <article class="card reveal">
+        <div class="top"><span class="kind">科研项目</span><span class="year">2024</span></div>
+        <h3>基于仿生技术与机器人学的智能机械体研究</h3>
+        <p>
+          在 MATLAB Robot Playground 中搭建仿真环境，构建 Braitenberg 车辆行为模型，
+          通过参数调节实现自主避障与趋光；完成机械臂 PD 控制与逆运动学调优；
+          实现混合 A* 算法求解迷宫导航。
+        </p>
+        <div class="tags"><span class="tag">MATLAB</span><span class="tag">混合 A*</span><span class="tag">PD 控制</span><span class="tag">运动学</span></div>
+      </article>
+
+      <article class="card reveal">
+        <div class="top"><span class="kind">学科竞赛 · 队长</span><span class="year">2024</span></div>
+        <h3>爱达·魔都号邮轮模型，海洋航行器设计与制作大赛</h3>
+        <p>
+          负责三维结构建模、优化设计与 3D 打印，带团队从数字模型走到实体样机，
+          并统筹设计、制作与系统调试。获第十三届全国海洋航行器设计与制作大赛东北赛区三等奖。
+        </p>
+        <div class="tags"><span class="tag">三维建模</span><span class="tag">3D 打印</span><span class="tag">团队负责</span></div>
+      </article>
+
+      <article class="card reveal">
+        <div class="top"><span class="kind">课程项目</span><span class="year">2023 至 2024</span></div>
+        <h3>基于 51 单片机的智能拾物小车</h3>
+        <p>
+          从硬件搭建到嵌入式软件的完整系统设计：电机驱动控制实现前进、后退与转向，
+          机械臂控制程序完成目标物体的自动抓取与放置，并通过系统性测试与故障调试提升稳定性。
+        </p>
+        <div class="tags"><span class="tag">51 单片机</span><span class="tag">嵌入式 C</span><span class="tag">电机控制</span></div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ 经历 ============ -->
+  <section id="experience">
+    <div class="sec-head reveal"><span class="idx">四</span><h2>实习与经历</h2><span class="rule"></span></div>
+    <div class="tl">
+
+      <div class="job reveal">
+        <div class="when">2026 年 8 月 · 哈尔滨</div>
+        <h3>华为鲲鹏 &amp; 昇腾培训营 实习生</h3>
+        <div class="org">黑龙江鲲鹏生态创新中心</div>
+        <ul>
+          <li>学习鲲鹏架构与 DevKit 流水线工具，在昇腾处理器上用 MindSpore 与 PyTorch 完成模型训练与迁移。</li>
+          <li>通过 MindIE 推理框架部署 DeepSeek 蒸馏模型，并对推理性能做优化。</li>
+          <li>基于 Dify 与 RAG、Embed、Rerank 模型搭建知识问答系统；部署 OpenClaw 智能体，在华为云上完成企业级网络部署实验。</li>
+        </ul>
+        <div class="tags"><span class="tag">鲲鹏 / 昇腾</span><span class="tag">MindSpore</span><span class="tag">MindIE</span><span class="tag">RAG</span><span class="tag">Dify</span></div>
+      </div>
+
+      <div class="job reveal">
+        <div class="when">2026 年 1 月至 3 月 · 深圳</div>
+        <h3>无人机测试中心 实习生</h3>
+        <div class="org">深圳市泽芯联合科技有限公司</div>
+        <ul>
+          <li>完成 FPV 无人机整机组装，焊接电路与图传芯片，负责日常故障诊断与维修。</li>
+          <li>调校 PID 参数以获得稳定飞行，测试并操作 FPV 模拟器，协助模拟器课程教学。</li>
+          <li>在客户与政府人员参观时负责接待与讲解。</li>
+        </ul>
+        <div class="tags"><span class="tag">FPV</span><span class="tag">PID 调参</span><span class="tag">焊接</span><span class="tag">飞行仿真</span></div>
+      </div>
+
+      <div class="job reveal">
+        <div class="when">2025 年 7 月至 8 月 · 深圳</div>
+        <h3>机器人平台部 嵌入式软件平台 实习生</h3>
+        <div class="org">深圳市海柔创新科技有限公司</div>
+        <ul>
+          <li>为 HaiPick A42 系列编写 100 余条冒烟测试用例，并针对盲抓放、休眠状态检测、自动充电验证设计专项用例。</li>
+          <li>为 10 余台机器人设计并维护性能与老化测试台架；搭建实验室电子地图、充电点布局与货架规划，形成标准化测试环境。</li>
+          <li>搭建基于 SSH 的 AI 辅助框架，实现远程诊断、指令分析与自动报告，单条用例开发时间从 1 小时以上压缩到 20 分钟以内。</li>
+          <li>触发并监控 Jenkins 任务执行自动化测试集，解决反复出现的 CI/CD 升级与网络断连故障。</li>
+        </ul>
+        <div class="tags"><span class="tag">机器人</span><span class="tag">CI/CD</span><span class="tag">Jenkins</span><span class="tag">Python</span><span class="tag">SSH</span></div>
+      </div>
+
+      <div class="job reveal">
+        <div class="when">2024 年 7 月 · 青岛</div>
+        <h3>科研实习生</h3>
+        <div class="org">自然资源部第一海洋研究所</div>
+        <ul>
+          <li>完成两项实验室实验：基于机器学习的气候模式偏差校正，以及海水亚硝酸盐检测。</li>
+          <li>搭建 Anaconda 分析环境，用 Python 完成偏差校正；学习仪器操作与实验流程。</li>
+          <li>担任项目宣传编辑，撰写与编辑约 10 篇宣传稿件。</li>
+        </ul>
+        <div class="tags"><span class="tag">Python</span><span class="tag">机器学习</span><span class="tag">数据分析</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 荣誉与技能 ============ -->
+  <section id="honours">
+    <div class="sec-head reveal"><span class="idx">五</span><h2>荣誉与技能</h2><span class="rule"></span></div>
+    <div class="two">
+      <div class="reveal">
+        <ul class="list">
+          <li><span class="yr">2026</span><span>国家留学基金委（CSC）国家公派奖学金，证书编号 202606680044</span></li>
+          <li><span class="yr">2025</span><span>院长嘉许名单（Dean's List），控制工程 Part 均分 89.3%</span></li>
+          <li><span class="yr">2024</span><span>第十三届全国海洋航行器设计与制作大赛东北赛区三等奖</span></li>
+          <li><span class="yr">2023</span><span>英国皇家造船师学会（RINA）学生会员</span></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <div class="skill-row">
+          <div class="k">编程</div>
+          <div class="v">Python、MATLAB / Simulink、Shell、嵌入式 C</div>
+        </div>
+        <div class="skill-row">
+          <div class="k">机器人</div>
+          <div class="v">ROS2、SLAM、路径规划、PID 与基于模型的控制、硬件集成</div>
+        </div>
+        <div class="skill-row">
+          <div class="k">建模与 CAD</div>
+          <div class="v">SolidWorks、Creo、CFD 仿真、3D 打印</div>
+        </div>
+        <div class="skill-row">
+          <div class="k">AI 系统</div>
+          <div class="v">强化学习、RAG 流程、昇腾平台模型迁移、Dify、MindIE</div>
+        </div>
+        <div class="skill-row">
+          <div class="k">语言</div>
+          <div class="v">中文（母语）、英语（熟练，全英文授课学位）</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 联系 ============ -->
+  <section class="contact" id="contact">
+    <div class="reveal">
+      <h2>欢迎聊聊足式运动、机器人自主性，以及一切必须在出故障之后还能继续工作的东西。</h2>
+      <div class="contact-links">
+        <a href="mailto:1425109609@qq.com">1425109609@qq.com</a>
+        <a href="tel:+8613410611555">+86 134 1061 1555</a>
+        <span style="color:var(--ink-4);letter-spacing:.02em;">深圳 · 哈尔滨 · 南安普顿</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-in">
+    <div class="foot-left"><span class="foot-seal">何</span><span>何俊杰 © 2026</span></div>
+    <span>哈尔滨工程大学 × 南安普顿大学</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var bar = document.getElementById('topbar');
+    var onScroll = function () {
+      if (window.scrollY > 12) bar.classList.add('scrolled');
+      else bar.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    var items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    items.forEach(function (el, i) {
+      el.style.transitionDelay = Math.min(i % 6, 3) * 55 + 'ms';
+    });
+
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    items.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.top < vh * 0.94 && r.bottom > 0) {
+        el.style.transitionDelay = '0ms';
+        el.classList.add('in');
+      } else {
+        io.observe(el);
+      }
+    });
+  })();
+</script>
+</body>
+</html>
