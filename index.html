@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HE Junjie | Control Engineering &amp; Robotics</title>
+<meta name="description" content="HE Junjie. BEng Control Engineering, Harbin Engineering University and University of Southampton joint programme. Fault-tolerant control, reinforcement learning, LiDAR SLAM and autonomous navigation.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23a63a2e'/%3E%3Ctext x='32' y='45' font-size='38' font-family='serif' fill='%23f7f4ec' text-anchor='middle'%3E%E4%BD%95%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --paper:#f7f4ec;
+    --paper-2:#efe9dc;
+    --card:rgba(255,255,255,.46);
+    --ink:#1c1a17;
+    --ink-2:#3d3833;
+    --ink-3:#6f675d;
+    --ink-4:#948b7f;
+    --cinnabar:#a63a2e;
+    --cinnabar-2:#c2503f;
+    --line:rgba(28,26,23,.13);
+    --line-soft:rgba(28,26,23,.07);
+    --max:1080px;
+    --serif:"Georgia","Iowan Old Style","Palatino Linotype","Songti SC","Noto Serif SC","SimSun",serif;
+    --sans:"Optima","Gill Sans","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background-color:var(--paper);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    color:var(--ink);
+    font-family:var(--serif);
+    font-size:16px;
+    line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:rgba(166,58,46,.16);}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:60;
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    background:rgba(247,244,236,.78);
+    border-bottom:1px solid transparent;
+    transition:border-color .4s ease,background .4s ease;
+  }
+  .topbar.scrolled{border-bottom-color:var(--line-soft);}
+  .topbar-in{
+    max-width:var(--max);margin:0 auto;padding:16px 32px;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+  }
+  .brand{display:flex;align-items:center;gap:12px;font-family:var(--sans);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);}
+  .seal-mini{
+    width:26px;height:26px;flex:0 0 26px;border-radius:4px;
+    background:var(--cinnabar);color:#fbf8f1;
+    display:grid;place-items:center;
+    font-family:var(--serif);font-size:15px;line-height:1;
+    box-shadow:0 1px 0 rgba(0,0,0,.06) inset;
+    transform:rotate(-3deg);
+  }
+  .nav{display:flex;gap:30px;}
+  .nav a{
+    font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-3);position:relative;padding-bottom:3px;white-space:nowrap;
+    transition:color .3s ease;
+  }
+  .nav a::after{
+    content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--cinnabar);
+    transition:width .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .nav a:hover{color:var(--ink);}
+  .nav a:hover::after{width:100%;}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;overflow:hidden;padding:112px 32px 96px;}
+  .ink{
+    position:absolute;pointer-events:none;border-radius:50%;
+    filter:blur(46px);opacity:.5;
+  }
+  .ink.a{width:520px;height:520px;right:-140px;top:-180px;
+    background:radial-gradient(circle at 40% 40%,rgba(60,54,48,.30),rgba(60,54,48,0) 68%);}
+  .ink.b{width:420px;height:420px;left:-160px;bottom:-200px;
+    background:radial-gradient(circle at 50% 50%,rgba(166,58,46,.16),rgba(166,58,46,0) 70%);}
+  .ink.c{width:300px;height:300px;left:46%;top:12%;
+    background:radial-gradient(circle at 50% 50%,rgba(28,26,23,.10),rgba(28,26,23,0) 70%);}
+  .hero-in{max-width:var(--max);margin:0 auto;position:relative;}
+  .eyebrow{
+    font-family:var(--sans);font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--cinnabar);display:flex;align-items:center;gap:14px;margin-bottom:26px;
+  }
+  .eyebrow::before{content:"";width:34px;height:1px;background:var(--cinnabar);opacity:.55;}
+  h1{
+    font-size:clamp(2.9rem,8vw,5.1rem);
+    line-height:1.02;font-weight:400;letter-spacing:-.025em;
+    background:linear-gradient(178deg,#12100d 0%,#332e29 48%,#6f675d 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .name-zh{
+    font-size:clamp(1.05rem,2.4vw,1.35rem);color:var(--ink-4);letter-spacing:.42em;
+    margin-top:16px;font-weight:400;
+  }
+  .lede{
+    max-width:620px;margin-top:34px;font-size:1.055rem;color:var(--ink-2);
+    line-height:1.85;
+  }
+  .lede em{font-style:normal;color:var(--ink);border-bottom:1px solid rgba(166,58,46,.32);}
+  .hero-meta{
+    margin-top:38px;display:flex;flex-wrap:wrap;gap:10px 26px;
+    font-family:var(--sans);font-size:12.5px;letter-spacing:.03em;color:var(--ink-3);
+  }
+  .hero-meta span{display:flex;align-items:center;gap:8px;}
+  .hero-meta b{font-weight:400;color:var(--ink-4);letter-spacing:.14em;text-transform:uppercase;font-size:10.5px;}
+  .hero-meta a{border-bottom:1px solid var(--line);transition:border-color .3s,color .3s;}
+  .hero-meta a:hover{color:var(--cinnabar);border-bottom-color:var(--cinnabar);}
+
+  .seal{
+    position:absolute;right:6px;top:118px;
+    width:96px;height:96px;border-radius:6px;
+    background:var(--cinnabar);color:rgba(255,255,255,.94);
+    display:grid;place-items:center;
+    font-family:var(--serif);font-size:46px;line-height:1;
+    letter-spacing:0;
+    transform:rotate(-4deg);
+    box-shadow:0 10px 26px -14px rgba(166,58,46,.7);
+    opacity:.94;
+  }
+  .seal::after{
+    content:"";position:absolute;inset:6px;border:1px solid rgba(255,255,255,.34);border-radius:3px;
+  }
+
+  /* ---------- layout ---------- */
+  main{max-width:var(--max);margin:0 auto;padding:0 32px 40px;}
+  section{padding:74px 0;border-top:1px solid var(--line-soft);}
+  section:first-of-type{border-top:none;}
+  .sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:42px;}
+  .sec-head h2{
+    font-family:var(--sans);font-size:12px;font-weight:500;
+    letter-spacing:.3em;text-transform:uppercase;color:var(--ink);
+  }
+  .sec-head .idx{
+    font-family:var(--serif);font-style:italic;font-size:13px;color:var(--cinnabar);letter-spacing:.05em;
+  }
+  .sec-head .rule{flex:1;height:1px;background:var(--line-soft);}
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid;grid-template-columns:1.35fr .95fr;gap:56px;}
+  .about-text p{color:var(--ink-2);margin-bottom:18px;font-size:1rem;}
+  .about-text p:last-child{margin-bottom:0;}
+  .about-text strong{font-weight:600;color:var(--ink);}
+
+  .edu{border-left:1px solid var(--line);padding-left:24px;}
+  .edu-item{margin-bottom:26px;}
+  .edu-item:last-child{margin-bottom:0;}
+  .edu-item h4{font-size:.98rem;font-weight:600;color:var(--ink);line-height:1.5;}
+  .edu-item .school{font-size:.9rem;color:var(--ink-3);margin-top:5px;}
+  .edu-item .stat{
+    font-family:var(--sans);font-size:11.5px;letter-spacing:.09em;color:var(--cinnabar);
+    margin-top:8px;text-transform:uppercase;
+  }
+
+  .interests{margin-top:44px;}
+  .interests h3{
+    font-family:var(--sans);font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--ink-4);margin-bottom:16px;
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:9px;}
+  .chip{
+    font-family:var(--sans);font-size:12px;letter-spacing:.02em;color:var(--ink-2);
+    border:1px solid var(--line);border-radius:100px;padding:6px 15px;background:rgba(255,255,255,.35);
+    transition:border-color .3s,color .3s,background .3s;
+  }
+  .chip:hover{border-color:rgba(166,58,46,.4);color:var(--cinnabar);background:rgba(166,58,46,.04);}
+
+  /* ---------- publications ---------- */
+  .pub{
+    display:grid;grid-template-columns:56px 1fr;gap:0 24px;
+    padding:30px 0 30px 0;border-top:1px solid var(--line-soft);
+    transition:padding-left .4s cubic-bezier(.2,.7,.2,1);
+  }
+  .pub:first-of-type{border-top:none;padding-top:0;}
+  .pub:hover{padding-left:10px;}
+  .pub-no{
+    font-family:var(--serif);font-style:italic;font-size:13px;color:var(--ink-4);
+    padding-top:5px;letter-spacing:.06em;transition:color .35s;
+  }
+  .pub:hover .pub-no{color:var(--cinnabar);}
+  .pub h3{font-size:1.14rem;font-weight:600;line-height:1.55;color:var(--ink);letter-spacing:-.005em;}
+  .pub .venue{
+    font-size:.92rem;color:var(--ink-3);margin-top:9px;
+  }
+  .pub .venue .flag{
+    font-family:var(--sans);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--cinnabar);border:1px solid rgba(166,58,46,.28);border-radius:3px;
+    padding:2px 7px;margin-left:9px;white-space:nowrap;
+  }
+  .pub p.desc{font-size:.95rem;color:var(--ink-2);margin-top:12px;max-width:76ch;}
+  .pub .metric{
+    display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:14px;
+    font-family:var(--sans);font-size:11.5px;letter-spacing:.06em;color:var(--ink-3);
+  }
+  .pub .metric b{color:var(--cinnabar);font-weight:500;}
+
+  /* ---------- projects ---------- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;}
+  .card{
+    background:var(--card);border:1px solid var(--line-soft);border-radius:3px;
+    padding:26px 26px 24px;position:relative;overflow:hidden;
+    transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s,border-color .45s,background .45s;
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 22px 44px -30px rgba(28,26,23,.45);
+    border-color:rgba(28,26,23,.16);background:rgba(255,255,255,.66);
+  }
+  .card .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px;}
+  .card .kind{
+    font-family:var(--sans);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-4);
+  }
+  .card .year{font-family:var(--serif);font-style:italic;font-size:11.5px;color:var(--ink-4);white-space:nowrap;}
+  .card h3{font-size:1.02rem;font-weight:600;line-height:1.55;color:var(--ink);}
+  .card p{font-size:.9rem;color:var(--ink-2);margin-top:11px;}
+  .card .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;}
+  .tag{
+    font-family:var(--sans);font-size:10.5px;letter-spacing:.05em;color:var(--ink-3);
+    background:rgba(28,26,23,.045);border-radius:2px;padding:3px 8px;
+  }
+
+  /* ---------- experience ---------- */
+  .tl{position:relative;padding-left:30px;}
+  .tl::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:1px;background:var(--line);}
+  .job{position:relative;padding-bottom:42px;}
+  .job:last-child{padding-bottom:0;}
+  .job::before{
+    content:"";position:absolute;left:-30px;top:9px;width:7px;height:7px;border-radius:50%;
+    background:var(--paper);border:1px solid rgba(28,26,23,.28);transform:translateX(-3px);
+    transition:background .35s,border-color .35s;
+  }
+  .job:hover::before{background:var(--cinnabar);border-color:var(--cinnabar);}
+  .job .when{
+    font-family:var(--sans);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4);
+  }
+  .job h3{font-size:1.06rem;font-weight:600;margin-top:7px;color:var(--ink);line-height:1.5;}
+  .job .org{font-size:.92rem;color:var(--ink-3);margin-top:4px;}
+  .job ul{margin-top:13px;padding-left:0;list-style:none;}
+  .job li{
+    position:relative;padding-left:18px;font-size:.93rem;color:var(--ink-2);margin-bottom:7px;
+  }
+  .job li::before{
+    content:"";position:absolute;left:0;top:.72em;width:8px;height:1px;background:rgba(166,58,46,.5);
+  }
+  .job .tags{margin-top:14px;}
+
+  /* ---------- honours & skills ---------- */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+  .list{list-style:none;}
+  .list li{
+    display:grid;grid-template-columns:64px 1fr;gap:14px;
+    padding:13px 0;border-bottom:1px solid var(--line-soft);font-size:.93rem;color:var(--ink-2);
+  }
+  .list li:first-child{padding-top:0;}
+  .list li:last-child{border-bottom:none;}
+  .list .yr{font-family:var(--sans);font-size:11px;letter-spacing:.1em;color:var(--cinnabar);padding-top:4px;}
+  .skill-row{margin-bottom:22px;}
+  .skill-row:last-child{margin-bottom:0;}
+  .skill-row .k{
+    font-family:var(--sans);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink-4);margin-bottom:9px;
+  }
+  .skill-row .v{font-size:.95rem;color:var(--ink-2);line-height:1.9;}
+
+  /* ---------- contact ---------- */
+  .contact{padding:96px 0 72px;border-top:1px solid var(--line-soft);}
+  .contact h2{
+    font-size:clamp(1.9rem,4.4vw,2.9rem);font-weight:400;line-height:1.28;letter-spacing:-.015em;
+    max-width:760px;
+    background:linear-gradient(176deg,#171512,#5c554c);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .contact-links{display:flex;flex-wrap:wrap;gap:14px 34px;margin-top:34px;
+    font-family:var(--sans);font-size:13px;letter-spacing:.06em;}
+  .contact-links a{
+    color:var(--ink-2);border-bottom:1px solid var(--line);padding-bottom:2px;
+    transition:color .3s,border-color .3s;
+  }
+  .contact-links a:hover{color:var(--cinnabar);border-bottom-color:var(--cinnabar);}
+
+  footer{
+    border-top:1px solid var(--line-soft);
+    padding:28px 32px 40px;
+  }
+  .foot-in{
+    max-width:var(--max);margin:0 auto;display:flex;justify-content:space-between;align-items:center;
+    gap:18px;flex-wrap:wrap;
+    font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);
+  }
+  .foot-seal{
+    width:22px;height:22px;border-radius:3px;background:rgba(166,58,46,.9);color:#fbf8f1;
+    display:grid;place-items:center;font-family:var(--serif);font-size:13px;transform:rotate(-4deg);
+  }
+  .foot-left{display:flex;align-items:center;gap:12px;}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{opacity:1;transform:none;}
+
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .about-grid{grid-template-columns:1fr;gap:40px;}
+    .two{grid-template-columns:1fr;gap:44px;}
+    .seal{width:76px;height:76px;font-size:36px;top:78px;right:0;opacity:.9;}
+    .nav{gap:20px;}
+    .nav a{font-size:11px;letter-spacing:.1em;}
+  }
+  @media (max-width:640px){
+    body{font-size:15.5px;}
+    .topbar-in{padding:13px 20px;gap:12px;}
+    .brand span:last-child{display:none;}
+    .nav{gap:15px;flex-wrap:wrap;justify-content:flex-end;}
+    .nav a{font-size:10px;letter-spacing:.08em;}
+    .hero{padding:64px 20px 62px;}
+    main{padding:0 20px 30px;}
+    section{padding:54px 0;}
+    .seal{position:relative;right:auto;top:auto;margin-top:34px;transform:rotate(-3deg);}
+    .pub{grid-template-columns:1fr;gap:0;}
+    .pub-no{padding-top:0;margin-bottom:8px;}
+    .job{padding-bottom:34px;}
+    .contact{padding:64px 0 48px;}
+    .foot-in{padding:0;}
+    .list li{grid-template-columns:52px 1fr;gap:10px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <div class="topbar-in">
+    <a href="#top" class="brand"><span class="seal-mini">何</span><span>HE Junjie</span></a>
+    <nav class="nav">
+      <a href="#about">About</a>
+      <a href="#publications">Research</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#honours">Honours</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="ink a"></div>
+  <div class="ink b"></div>
+  <div class="ink c"></div>
+  <div class="hero-in">
+    <p class="eyebrow">Automation &middot; Control Engineering &middot; Robotics</p>
+    <h1>HE Junjie</h1>
+    <p class="name-zh">何 俊 杰</p>
+    <p class="lede">
+      I build robots that can survive their own failures. My work sits between
+      <em>fault-tolerant control</em> for legged machines and
+      <em>learning-based autonomy</em> for mobile platforms: estimating what has broken,
+      redistributing what still works, and letting the robot find its own way through.
+    </p>
+    <div class="hero-meta">
+      <span><b>Now</b> BEng Control Engineering, HEU &times; University of Southampton</span>
+      <span><b>Mail</b> <a href="mailto:1425109609@qq.com">1425109609@qq.com</a></span>
+      <span><b>Base</b> Shenzhen / Harbin, China</span>
+    </div>
+  </div>
+  <div class="seal">何</div>
+</div>
+
+<main>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about">
+    <div class="sec-head reveal"><span class="idx">I</span><h2>About</h2><span class="rule"></span></div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          I am an undergraduate in the joint programme between <strong>Harbin Engineering University</strong>
+          and the <strong>University of Southampton</strong>, reading Automation on the Chinese side and
+          BEng Control Engineering on the UK side, with a current average of 88.13/100 and an expected
+          First Class Honours.
+        </p>
+        <p>
+          My research interest started with a simple question: what happens when a robot's actuator quietly
+          loses authority and nobody notices. That led to a first-author paper on bipedal balance recovery
+          using a nonlinear disturbance observer paired with reinforcement learning, and a second one on
+          Q-learning based path planning for warehouse robots. Both share the same instinct, that a machine
+          should be able to reason about its own degradation and still finish the task.
+        </p>
+        <p>
+          I am currently completing my undergraduate thesis on <strong>LiDAR-based SLAM mapping and
+          autonomous navigation for mobile robots</strong>, building the full pipeline from point cloud
+          registration to costmap-based navigation in simulation. Alongside research I have worked on
+          warehouse robot test platforms at Hai Robotics, on FPV drone hardware, and on the Huawei Kunpeng
+          and Ascend AI stack, which keeps my modelling grounded in things that actually have to boot up.
+        </p>
+      </div>
+
+      <div class="reveal">
+        <div class="edu">
+          <div class="edu-item">
+            <h4>BEng Control Engineering</h4>
+            <div class="school">University of Southampton &middot; Joint Programme with HEU</div>
+            <div class="stat">Expected First Class Honours</div>
+          </div>
+          <div class="edu-item">
+            <h4>Bachelor of Engineering, Automation</h4>
+            <div class="school">Harbin Engineering University</div>
+            <div class="stat">GPA 3.5 / 4.0 &middot; Average 88.13 / 100</div>
+          </div>
+          <div class="edu-item">
+            <h4>Visiting Student, Control Engineering</h4>
+            <div class="school">University of Southampton &middot; CSC Outstanding Engineer Programme</div>
+            <div class="stat">Jan 2027 to Apr 2027, expected</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="interests reveal">
+      <h3>Research Interests</h3>
+      <div class="chips">
+        <span class="chip">Fault-tolerant control</span>
+        <span class="chip">Nonlinear disturbance observers</span>
+        <span class="chip">Reinforcement learning for control</span>
+        <span class="chip">Legged robot balance</span>
+        <span class="chip">LiDAR SLAM</span>
+        <span class="chip">Autonomous navigation</span>
+        <span class="chip">Robot system integration</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PUBLICATIONS ============ -->
+  <section id="publications">
+    <div class="sec-head reveal"><span class="idx">II</span><h2>Publications</h2><span class="rule"></span></div>
+
+    <article class="pub reveal">
+      <div class="pub-no">01</div>
+      <div>
+        <h3>Fault-Tolerant Bipedal Balance Recovery via Nonlinear Disturbance Observer and Reinforcement Learning-Based Torque Redistribution</h3>
+        <p class="venue">
+          <em>ICSP 2026</em>, 11th International Conference on Intelligent Computing and Signal Processing, Hefei, China
+          &middot; IEEE Xplore, EI Compendex, Scopus
+          <span class="flag">First author</span>
+        </p>
+        <p class="desc">
+          A hybrid framework that keeps a bipedal robot standing after its ankle actuators partially fail.
+          A nonlinear disturbance observer estimates the lost torque in real time, and a reinforcement
+          learning policy redistributes the remaining authority across joints.
+        </p>
+        <div class="metric">
+          <span>Torque loss tolerated <b>56%</b></span>
+          <span>Balance survival <b>82%</b></span>
+          <span>Centroid deviation <b>0.355 &plusmn; 0.102 m</b></span>
+          <span>Outperforms mainstream benchmarks</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="pub reveal">
+      <div class="pub-no">02</div>
+      <div>
+        <h3>Three-stage Path Planning for Warehouse Robots Based on Q-learning Algorithm</h3>
+        <p class="venue">
+          <em>AMCCE 2024</em>, 5th International Conference on Automation, Mechanical Control and Computational Engineering, Athens, Greece
+          &middot; Highlights in Science, Engineering and Technology (ISSN 2791-0210)
+          <span class="flag">First author</span>
+        </p>
+        <p class="desc">
+          A MATLAB warehouse simulation and a three-stage planning scheme that decouples global path
+          planning from local obstacle avoidance, addressing the coupling problem that makes classical
+          planners stall in dense storage layouts.
+        </p>
+        <div class="metric">
+          <span>Faster convergence than baselines</span>
+          <span>Higher navigation accuracy</span>
+          <span>Iterative parameter tuning</span>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects">
+    <div class="sec-head reveal"><span class="idx">III</span><h2>Selected Projects</h2><span class="rule"></span></div>
+    <div class="cards">
+
+      <article class="card reveal">
+        <div class="top"><span class="kind">Undergraduate thesis</span><span class="year">2026 to 2027</span></div>
+        <h3>LiDAR-Based SLAM Mapping and Autonomous Navigation for Mobile Robots</h3>
+        <p>
+          Building a complete autonomy stack in simulation: point cloud preprocessing and scan matching
+          for mapping, map maintenance, global and local planners, and recovery behaviours, evaluated on
+          loop-closure error and navigation success rate.
+        </p>
+        <div class="tags"><span class="tag">ROS2</span><span class="tag">SLAM</span><span class="tag">Nav2</span><span class="tag">Simulation</span></div>
+      </article>
+
+      <article class="card reveal">
+        <div class="top"><span class="kind">Course project</span><span class="year">2025 to 2026</span></div>
+        <h3>Expression Robot with Voice Dialogue and Visual Perception</h3>
+        <p>
+          A hybrid ESP32 and Raspberry Pi architecture driving nine servos for facial expression, with
+          Grove Vision AI, dual autofocus cameras and a MEMS microphone. Integrated the XiaoZhi framework
+          with the DeepSeek API for natural conversation and real-time scene description.
+        </p>
+        <div class="tags"><span class="tag">ESP32</span><span class="tag">Raspberry Pi</span><span class="tag">Edge AI</span><span class="tag">Hardware</span></div>
+      </article>
+
+      <article class="card reveal">
+        <div class="top"><span class="kind">Independent project</span><span class="year">2025</span></div>
+        <h3>Race-Car Rear Wing Aerodynamic Design and CFD Validation</h3>
+        <p>
+          Full workflow from concept to validated geometry: Python lap-time simulation to fix CL/CD
+          targets, Bezier-curve aerofoil modelling, a two-element wing with trailing-edge flap, and a
+          five-level mesh CFD study in SolidWorks Flow Simulation.
+        </p>
+        <div class="tags"><span class="tag">CFD</span><span class="tag">Python</span><span class="tag">Aerodynamics</span><span class="tag">SolidWorks</span></div>
+      </article>
+
+      <article class="card reveal">
+        <div class="top"><span class="kind">Research project</span><span class="year">2024</span></div>
+        <h3>Bionic Mechanical Bodies and Robot Behaviour Modelling</h3>
+        <p>
+          Braitenberg vehicle model with autonomous obstacle avoidance and light tracking in the MATLAB
+          Robot Playground, plus PD control and inverse kinematics tuning for manipulators and a hybrid
+          A* planner for maze navigation.
+        </p>
+        <div class="tags"><span class="tag">MATLAB</span><span class="tag">Hybrid A*</span><span class="tag">PD control</span><span class="tag">Kinematics</span></div>
+      </article>
+
+      <article class="card reveal">
+        <div class="top"><span class="kind">Competition, team leader</span><span class="year">2024</span></div>
+        <h3>Adora Magic City, Marine Vehicle Design and Construction Contest</h3>
+        <p>
+          Led 3D structural modelling, optimisation and 3D printing of a cruise ship model, taking the
+          team from digital design to a physical prototype. Regional third prize, Northeast China.
+        </p>
+        <div class="tags"><span class="tag">3D modelling</span><span class="tag">3D printing</span><span class="tag">Team lead</span></div>
+      </article>
+
+      <article class="card reveal">
+        <div class="top"><span class="kind">Course project</span><span class="year">2023 to 2024</span></div>
+        <h3>Intelligent Object-Picking Car on 51 Single-Chip Microcomputer</h3>
+        <p>
+          Complete system design from hardware to embedded software: motor drive control for motion
+          primitives, a manipulator control programme for automatic pick and place, and systematic fault
+          debugging to stabilise the platform.
+        </p>
+        <div class="tags"><span class="tag">51 MCU</span><span class="tag">Embedded C</span><span class="tag">Motor control</span></div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ EXPERIENCE ============ -->
+  <section id="experience">
+    <div class="sec-head reveal"><span class="idx">IV</span><h2>Experience</h2><span class="rule"></span></div>
+    <div class="tl">
+
+      <div class="job reveal">
+        <div class="when">Aug 2026 &middot; Harbin</div>
+        <h3>Intern, Huawei Kunpeng &amp; Ascend Training Programme</h3>
+        <div class="org">Heilongjiang Kunpeng Ecological Innovation Center</div>
+        <ul>
+          <li>Studied Kunpeng architecture and DevKit pipeline tools; trained and migrated models with MindSpore and PyTorch on Ascend processors.</li>
+          <li>Deployed a DeepSeek distilled model through the MindIE inference framework and optimised its inference performance.</li>
+          <li>Built a Dify knowledge Q&amp;A system with RAG, Embed and Rerank models; deployed OpenClaw agents and set up an enterprise network on Huawei Cloud.</li>
+        </ul>
+        <div class="tags"><span class="tag">Kunpeng / Ascend</span><span class="tag">MindSpore</span><span class="tag">MindIE</span><span class="tag">RAG</span><span class="tag">Dify</span></div>
+      </div>
+
+      <div class="job reveal">
+        <div class="when">Jan to Mar 2026 &middot; Shenzhen</div>
+        <h3>UAV Test Center Intern</h3>
+        <div class="org">Zexin United Technology (Shenzhen) Co., Ltd.</div>
+        <ul>
+          <li>Assembled complete FPV drones, soldered circuits and video transmission chips, and carried out routine fault diagnosis and repair.</li>
+          <li>Tuned PID parameters for stable flight and tested FPV simulators, assisting with simulator training courses.</li>
+          <li>Hosted government officials and clients during site inspections and visits.</li>
+        </ul>
+        <div class="tags"><span class="tag">FPV</span><span class="tag">PID tuning</span><span class="tag">Soldering</span><span class="tag">Simulation</span></div>
+      </div>
+
+      <div class="job reveal">
+        <div class="when">Jul to Aug 2025 &middot; Shenzhen</div>
+        <h3>Embedded Software Platform Intern, Robot Platform Department</h3>
+        <div class="org">Hai Robotics Co., Ltd.</div>
+        <ul>
+          <li>Developed over 100 automated smoke test cases for the HaiPick A42 series, plus targeted cases for blind pick-and-place, dormant-state detection and auto-charging verification.</li>
+          <li>Designed and maintained performance and ageing test setups for more than 10 robots, and built the lab electronic maps, charging layouts and shelf planning that standardised the test environment.</li>
+          <li>Built an SSH-based AI-assisted framework for remote diagnosis, command analysis and automated reporting, cutting per-case development time from over one hour to under twenty minutes.</li>
+          <li>Ran and monitored Jenkins jobs for automated suites and resolved recurring CI/CD upgrade and network-disconnection faults.</li>
+        </ul>
+        <div class="tags"><span class="tag">Robotics</span><span class="tag">CI/CD</span><span class="tag">Jenkins</span><span class="tag">Python</span><span class="tag">SSH</span></div>
+      </div>
+
+      <div class="job reveal">
+        <div class="when">Jul 2024 &middot; Qingdao</div>
+        <h3>Scientific Research Intern</h3>
+        <div class="org">First Institute of Oceanography, Ministry of Natural Resources</div>
+        <ul>
+          <li>Completed two laboratory experiments: machine-learning based climate model bias correction, and seawater nitrite detection.</li>
+          <li>Built the Anaconda analysis environment and applied Python to bias correction; learned instrument operation and laboratory procedure.</li>
+          <li>Served as publicity editor for the programme, drafting and editing around ten articles.</li>
+        </ul>
+        <div class="tags"><span class="tag">Python</span><span class="tag">Machine learning</span><span class="tag">Data analysis</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ HONOURS & SKILLS ============ -->
+  <section id="honours">
+    <div class="sec-head reveal"><span class="idx">V</span><h2>Honours &amp; Skills</h2><span class="rule"></span></div>
+    <div class="two">
+      <div class="reveal">
+        <ul class="list">
+          <li><span class="yr">2026</span><span>China Scholarship Council State Scholarship Fund Award, Certificate No. 202606680044</span></li>
+          <li><span class="yr">2025</span><span>Dean's List Award for Outstanding Achievement, Part average 89.3% in BEng Control Engineering</span></li>
+          <li><span class="yr">2024</span><span>Third Prize, 13th China Marine Vehicle Design and Construction Contest, Northeast Regional</span></li>
+          <li><span class="yr">2023</span><span>Student Member, Royal Institution of Naval Architects (RINA)</span></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <div class="skill-row">
+          <div class="k">Programming</div>
+          <div class="v">Python, MATLAB / Simulink, Shell, embedded C</div>
+        </div>
+        <div class="skill-row">
+          <div class="k">Robotics</div>
+          <div class="v">ROS2, SLAM, path planning, PID and model-based control, hardware integration</div>
+        </div>
+        <div class="skill-row">
+          <div class="k">Modelling and CAD</div>
+          <div class="v">SolidWorks, Creo, CFD simulation, 3D printing</div>
+        </div>
+        <div class="skill-row">
+          <div class="k">AI Systems</div>
+          <div class="v">Reinforcement learning, RAG pipelines, model migration on Ascend, Dify, MindIE</div>
+        </div>
+        <div class="skill-row">
+          <div class="k">Languages</div>
+          <div class="v">Mandarin (native), English (proficient, English-medium instruction)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="contact" id="contact">
+    <div class="reveal">
+      <h2>Open to research conversations on legged locomotion, robot autonomy, and anything that has to keep working after something breaks.</h2>
+      <div class="contact-links">
+        <a href="mailto:1425109609@qq.com">1425109609@qq.com</a>
+        <a href="tel:+8613410611555">+86 134 1061 1555</a>
+        <span style="color:var(--ink-4);letter-spacing:.04em;">Shenzhen &middot; Harbin &middot; Southampton</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-in">
+    <div class="foot-left"><span class="foot-seal">何</span><span>HE Junjie &copy; 2026</span></div>
+    <span>Harbin Engineering University &times; University of Southampton</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var bar = document.getElementById('topbar');
+    var onScroll = function () {
+      if (window.scrollY > 12) bar.classList.add('scrolled');
+      else bar.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    var items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    items.forEach(function (el, i) {
+      el.style.transitionDelay = Math.min(i % 6, 3) * 55 + 'ms';
+    });
+
+    // first paint: anything already inside the viewport shows immediately
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    items.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.top < vh * 0.94 && r.bottom > 0) {
+        el.style.transitionDelay = '0ms';
+        el.classList.add('in');
+      } else {
+        io.observe(el);
+      }
+    });
+  })();
+</script>
+</body>
+</html>
